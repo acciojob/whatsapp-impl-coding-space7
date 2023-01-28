@@ -37,7 +37,7 @@ public class WhatsappRepository {
 
         userMobile.add(mobile);
         moblieUser.put(mobile,new User(name, mobile));
-        return mobile+" Added Successfully with name "+name+" .";
+        return "SUCCESS";
     }
 
     public Group createGroup(List<User> users){
@@ -72,7 +72,7 @@ public class WhatsappRepository {
     }
     public int sendMessage(Message message, User sender, Group group) throws Exception{
         if(!groupUserMap.containsKey(group))
-            throw new Exception("Group not present.");
+            throw new Exception("Group does not exist");
         List<User> list = groupUserMap.get(group);
         boolean flag = false;
         for (User user:list) {
@@ -83,15 +83,15 @@ public class WhatsappRepository {
             }
         }
         if(!flag)
-            throw new Exception("Sender not present.");
+            throw new Exception("You are not allowed to send message");
         return groupMessageMap.get(group).size();
     }
     public String changeAdmin(User approver, User user, Group group) throws Exception{
         if(!adminMap.containsKey(group))
-            throw new Exception("Group not present.");
+            throw new Exception("Group does not exist");
         if(!adminMap.get(group).getName().equals(approver.getName()))
-            throw new Exception("Approver is not admin.");
+            throw new Exception("Approver does not have rights");
         adminMap.put(group,user);
-        return "Admin Updated successfully.";
+        return "SUCCESS";
     }
 }
